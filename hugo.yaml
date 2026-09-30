@@ -1,0 +1,73 @@
+baseURL: http://localhost:1313/
+title: OntoDL+
+theme: hugo-book
+
+defaultContentLanguage: en
+defaultContentLanguageInSubdir: true
+disableDefaultLanguageRedirect: true
+
+disablePathToLower: true
+enableGitInfo: false
+
+module:
+  hugoVersion:
+    min: "0.158.0"
+    extended: true
+
+markup:
+  goldmark:
+    renderer:
+      unsafe: true
+  tableOfContents:
+    startLevel: 2
+    endLevel: 3
+  highlight:
+    style: base16-snazzy
+
+languages:
+  en:
+    label: English
+    locale: en
+    contentDir: content/en
+    weight: 1
+    copyright: "OntoDL+ documentation is licensed under CC BY-NC 4.0."
+    menus:
+      home:
+        - name: Documentation
+          pageRef: /docs/
+          weight: 10
+      after:
+        - name: Thesis
+          url: https://hdl.handle.net/1822/81340
+          weight: 10
+        - name: Official site
+          url: https://epl.di.uminho.pt/~gepl/GEPL_DS/OntoDL/
+          weight: 20
+  pt:
+    label: Português
+    locale: pt-PT
+    contentDir: content/pt
+    weight: 2
+    copyright: "A documentação do OntoDL+ está licenciada ao abrigo da CC BY-NC 4.0."
+    menus:
+      home:
+        - name: Documentação
+          pageRef: /docs/
+          weight: 10
+      after:
+        - name: Tese
+          url: https://hdl.handle.net/1822/81340
+          weight: 10
+        - name: Sítio oficial
+          url: https://epl.di.uminho.pt/~gepl/GEPL_DS/OntoDL/
+          weight: 20
+
+params:
+  BookTheme: light
+  BookToC: true
+  BookSearch: true
+  BookComments: false
+  BookServiceWorker: false
+  BookSection: docs
+  BookPortableLinks: warning
+  BookTranslatedOnly: false

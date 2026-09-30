@@ -1,0 +1,38 @@
+{{ $lang := .Page.Language.Lang }}
+{{ $or := cond (eq $lang "pt") "ou" "or" }}
+{{ $group := .Get 0 }}
+{{ $g := index site.Data.grammar.groups $group }}
+{{ if not $g }}
+  {{ errorf "grammar-view: unknown group %q" $group }}
+{{ end }}
+
+<div class="syn-group">
+{{ range $g.rules }}
+  {{ $title := .name }}
+  {{ with .label }}{{ $title = index . $lang }}{{ end }}
+  <article class="syn-rule" id="{{ .name }}">
+    <h3 class="syn-name"><a href="#{{ .name }}">{{ $title }}</a></h3>
+    {{ with .note }}
+      <p class="syn-note">{{ index . $lang }}</p>
+    {{ else }}
+      <div class="syn-alts">
+        {{ range $i, $alt := .alts }}
+          {{ if $i }}<div class="syn-or" aria-hidden="true">{{ $or }}</div>{{ end }}
+          <div class="syn-seq">
+            {{ range $alt }}
+              {{ if eq .k "t" }}
+                <span class="syn-t">{{ .v }}</span>
+              {{ else if eq .k "n" }}
+                <a class="syn-nt" href="#{{ .v }}">{{ .v }}</a>
+              {{ else }}
+                <span class="syn-s">{{ .v }}</span>
+              {{ end }}
+              {{ with .m }}<span class="syn-m">{{ . }}</span>{{ end }}
+            {{ end }}
+          </div>
+        {{ end }}
+      </div>
+    {{ end }}
+  </article>
+{{ end }}
+</div>

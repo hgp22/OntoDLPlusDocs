@@ -1,0 +1,398 @@
+groups:
+  structure:
+    rules:
+      - name: ontologia
+        alts:
+          - - {k: t, v: Ontologia}
+            - {k: n, v: TEXT}
+            - {k: n, v: atributosSecao, m: "?"}
+            - {k: n, v: conceitos}
+            - {k: n, v: individuos, m: "?"}
+            - {k: n, v: relacoes}
+            - {k: n, v: triplos}
+            - {k: n, v: restricoes, m: "?"}
+            - {k: s, v: "."}
+      - name: expandStmt
+        alts:
+          - - {k: t, v: expand}
+            - {k: n, v: fileName}
+            - {k: s, v: ";"}
+      - name: fileName
+        alts:
+          - - {k: n, v: TEXT}
+            - {k: s, v: "."}
+            - {k: n, v: TEXT}
+            - {k: s, v: "."}
+            - {k: n, v: TEXT, m: "*"}
+
+  concepts:
+    rules:
+      - name: atributosSecao
+        alts:
+          - - {k: n, v: atributosKw}
+            - {k: s, v: "{"}
+            - {k: n, v: expandStmt}
+            - {k: s, v: "}"}
+          - - {k: n, v: atributosKw}
+            - {k: s, v: "{"}
+            - {k: n, v: atributoDeclList}
+            - {k: s, v: "}"}
+      - name: atributoDeclList
+        alts:
+          - - {k: n, v: atributoDecl}
+            - {k: s, v: ","}
+            - {k: n, v: atributoDecl, m: "*"}
+      - name: atributoDecl
+        alts:
+          - - {k: n, v: TEXT}
+            - {k: s, v: ":"}
+            - {k: n, v: tipo}
+      - name: conceitos
+        alts:
+          - - {k: n, v: conceitosKw}
+            - {k: s, v: "{"}
+            - {k: n, v: expandStmt}
+            - {k: s, v: "}"}
+          - - {k: n, v: conceitosKw}
+            - {k: s, v: "{"}
+            - {k: n, v: conceitoList}
+            - {k: s, v: "}"}
+      - name: conceitoList
+        alts:
+          - - {k: n, v: conceito}
+            - {k: s, v: ","}
+            - {k: n, v: conceito, m: "*"}
+      - name: conceito
+        alts:
+          - - {k: n, v: TEXT}
+            - {k: n, v: atributos, m: "?"}
+      - name: atributos
+        alts:
+          - - {k: s, v: "["}
+            - {k: n, v: atributoRef}
+            - {k: s, v: ","}
+            - {k: n, v: atributoRef, m: "*"}
+            - {k: s, v: "]"}
+      - name: atributoRef
+        alts:
+          - - {k: n, v: TEXT}
+          - - {k: n, v: TEXT}
+            - {k: s, v: ":"}
+            - {k: n, v: tipo}
+      - name: tipo
+        alts:
+          - - {k: n, v: TEXT}
+          - - {k: t, v: enum}
+            - {k: s, v: "("}
+            - {k: n, v: enumValue}
+            - {k: s, v: ","}
+            - {k: n, v: enumValue, m: "*"}
+            - {k: s, v: ")"}
+      - name: enumValue
+        alts:
+          - - {k: n, v: atom}
+
+  individuals:
+    rules:
+      - name: individuos
+        alts:
+          - - {k: t, v: individuos}
+            - {k: s, v: "{"}
+            - {k: n, v: expandStmt}
+            - {k: s, v: "}"}
+          - - {k: t, v: individuos}
+            - {k: s, v: "{"}
+            - {k: n, v: individuoList}
+            - {k: s, v: "}"}
+      - name: individuoList
+        alts:
+          - - {k: n, v: TEXT}
+            - {k: n, v: TEXT, m: "?"}
+            - {k: s, v: ","}
+            - {k: n, v: TEXT}
+            - {k: n, v: TEXT, m: "?"}
+            - {k: s, v: "…"}
+
+  relations:
+    rules:
+      - name: relacoes
+        alts:
+          - - {k: n, v: relacoesKw}
+            - {k: s, v: "{"}
+            - {k: n, v: expandStmt}
+            - {k: s, v: "}"}
+          - - {k: n, v: relacoesKw}
+            - {k: s, v: "{"}
+            - {k: n, v: relacaoList}
+            - {k: s, v: "}"}
+      - name: relacaoList
+        alts:
+          - - {k: n, v: relacao}
+            - {k: s, v: ","}
+            - {k: n, v: relacao, m: "*"}
+      - name: relacao
+        alts:
+          - - {k: n, v: TEXT}
+          - - {k: n, v: TEXT}
+            - {k: s, v: "["}
+            - {k: n, v: relInf}
+            - {k: s, v: ","}
+            - {k: n, v: relInf, m: "*"}
+            - {k: s, v: "]"}
+      - name: relInf
+        alts:
+          - - {k: t, v: domain}
+            - {k: s, v: ":"}
+            - {k: n, v: TEXT}
+          - - {k: t, v: codomain}
+            - {k: s, v: ":"}
+            - {k: n, v: TEXT}
+          - - {k: t, v: props}
+            - {k: s, v: ":"}
+            - {k: n, v: properties}
+      - name: properties
+        alts:
+          - - {k: s, v: "("}
+            - {k: n, v: property}
+            - {k: s, v: ","}
+            - {k: n, v: property, m: "*"}
+            - {k: s, v: ")"}
+          - - {k: n, v: property}
+      - name: property
+        alts:
+          - - {k: t, v: bijection}
+          - - {k: t, v: injection}
+          - - {k: t, v: surjection}
+          - - {k: t, v: abstraction}
+          - - {k: t, v: "function"}
+          - - {k: t, v: representation}
+          - - {k: t, v: surjective}
+          - - {k: t, v: simple}
+          - - {k: t, v: entire}
+          - - {k: t, v: injective}
+          - - {k: n, v: inverseKw}
+            - {k: s, v: "="}
+            - {k: n, v: TEXT}
+
+  triples:
+    rules:
+      - name: triplos
+        alts:
+          - - {k: t, v: triplos}
+            - {k: s, v: "{"}
+            - {k: n, v: expandStmt}
+            - {k: s, v: "}"}
+          - - {k: t, v: triplos}
+            - {k: s, v: "{"}
+            - {k: n, v: triploList}
+            - {k: s, v: "}"}
+      - name: triploList
+        alts:
+          - - {k: n, v: triplo}
+            - {k: s, v: ";"}
+            - {k: n, v: triplo, m: "*"}
+      - name: triplo
+        alts:
+          - - {k: s, v: "(", m: "?"}
+            - {k: n, v: TEXT}
+            - {k: s, v: "="}
+            - {k: n, v: iofKw}
+            - {k: s, v: "=>"}
+            - {k: n, v: TEXT}
+            - {k: n, v: atribInsts, m: "?"}
+            - {k: s, v: ")", m: "?"}
+          - - {k: s, v: "(", m: "?"}
+            - {k: n, v: TEXT}
+            - {k: s, v: "="}
+            - {k: n, v: pofKw}
+            - {k: s, v: "=>"}
+            - {k: n, v: TEXT}
+            - {k: s, v: ")", m: "?"}
+          - - {k: s, v: "(", m: "?"}
+            - {k: n, v: TEXT}
+            - {k: s, v: "="}
+            - {k: n, v: isaKw}
+            - {k: s, v: "=>"}
+            - {k: n, v: TEXT}
+            - {k: s, v: ")", m: "?"}
+          - - {k: s, v: "(", m: "?"}
+            - {k: n, v: TEXT}
+            - {k: s, v: "="}
+            - {k: n, v: synKw}
+            - {k: s, v: "=>"}
+            - {k: n, v: TEXT}
+            - {k: s, v: ")", m: "?"}
+          - - {k: s, v: "(", m: "?"}
+            - {k: n, v: TEXT}
+            - {k: s, v: "="}
+            - {k: n, v: TEXT}
+            - {k: s, v: "=>"}
+            - {k: n, v: TEXT}
+            - {k: s, v: ")", m: "?"}
+          - - {k: n, v: TEXT}
+            - {k: s, v: "=["}
+            - {k: n, v: relacionamentos}
+            - {k: s, v: ";"}
+            - {k: n, v: relacionamentos, m: "*"}
+            - {k: s, v: "]"}
+      - name: relacionamentos
+        alts:
+          - - {k: n, v: TEXT}
+            - {k: s, v: "=>"}
+            - {k: n, v: TEXT}
+            - {k: s, v: ","}
+            - {k: n, v: relMultiplo, m: "*"}
+          - - {k: n, v: synKw}
+            - {k: s, v: "=>"}
+            - {k: n, v: TEXT}
+            - {k: s, v: ","}
+            - {k: n, v: relMultiplo, m: "*"}
+          - - {k: n, v: isaKw}
+            - {k: s, v: "=>"}
+            - {k: n, v: TEXT}
+            - {k: s, v: ","}
+            - {k: n, v: relMultiplo, m: "*"}
+          - - {k: n, v: pofKw}
+            - {k: s, v: "=>"}
+            - {k: n, v: TEXT}
+            - {k: s, v: ","}
+            - {k: n, v: relMultiplo, m: "*"}
+          - - {k: n, v: iofKw}
+            - {k: s, v: "=>"}
+            - {k: n, v: TEXT}
+            - {k: n, v: atribInsts, m: "?"}
+            - {k: s, v: ","}
+            - {k: n, v: relMultiplo, m: "*"}
+      - name: relMultiplo
+        alts:
+          - - {k: s, v: "=>", m: "?"}
+            - {k: n, v: TEXT}
+      - name: atribInsts
+        alts:
+          - - {k: s, v: "["}
+            - {k: n, v: atribInst}
+            - {k: s, v: ","}
+            - {k: n, v: atribInst, m: "*"}
+            - {k: s, v: "]"}
+      - name: atribInst
+        alts:
+          - - {k: n, v: TEXT}
+            - {k: s, v: "="}
+            - {k: n, v: atom}
+
+  constraints:
+    rules:
+      - name: restricoes
+        alts:
+          - - {k: n, v: restricoesKw}
+            - {k: s, v: "{"}
+            - {k: n, v: constraint, m: "*"}
+            - {k: s, v: "}"}
+      - name: constraint
+        alts:
+          - - {k: n, v: constraintAtom}
+            - {k: s, v: ":-"}
+            - {k: n, v: constraintBody}
+            - {k: s, v: "."}
+      - name: constraintBody
+        alts:
+          - - {k: n, v: constraintDisj}
+      - name: constraintDisj
+        alts:
+          - - {k: n, v: constraintConj}
+            - {k: s, v: ";"}
+            - {k: n, v: constraintConj, m: "*"}
+      - name: constraintConj
+        alts:
+          - - {k: n, v: constraintPrim}
+            - {k: s, v: ","}
+            - {k: n, v: constraintPrim, m: "*"}
+      - name: constraintPrim
+        alts:
+          - - {k: s, v: "("}
+            - {k: n, v: constraintBody}
+            - {k: s, v: ")"}
+          - - {k: t, v: "not"}
+            - {k: s, v: "("}
+            - {k: n, v: constraintBody}
+            - {k: s, v: ")"}
+          - - {k: n, v: constraintAtom}
+      - name: constraintAtom
+        alts:
+          - - {k: n, v: TEXT}
+            - {k: s, v: "="}
+            - {k: n, v: TEXT}
+            - {k: s, v: "=>"}
+            - {k: n, v: TEXT}
+          - - {k: n, v: TEXT}
+            - {k: s, v: "=="}
+            - {k: n, v: atom}
+          - - {k: n, v: TEXT}
+            - {k: s, v: "\\="}
+            - {k: n, v: atom}
+
+  keywords:
+    rules:
+      - name: atributosKw
+        alts:
+          - - {k: t, v: atributos}
+          - - {k: t, v: attributes}
+      - name: conceitosKw
+        alts:
+          - - {k: t, v: conceitos}
+          - - {k: t, v: concepts}
+      - name: relacoesKw
+        alts:
+          - - {k: t, v: relacoes}
+          - - {k: t, v: relations}
+      - name: restricoesKw
+        alts:
+          - - {k: t, v: restricoes}
+          - - {k: t, v: restrictions}
+      - name: inverseKw
+        alts:
+          - - {k: t, v: inverseOf}
+          - - {k: t, v: inversaDe}
+      - name: iofKw
+        alts:
+          - - {k: t, v: iof}
+          - - {k: t, v: instancia}
+      - name: pofKw
+        alts:
+          - - {k: t, v: pof}
+          - - {k: t, v: parte}
+      - name: isaKw
+        alts:
+          - - {k: t, v: is-a}
+          - - {k: t, v: subclasse}
+      - name: synKw
+        alts:
+          - - {k: t, v: synonym}
+          - - {k: t, v: sinonimo}
+
+  lexicon:
+    rules:
+      - name: atom
+        alts:
+          - - {k: n, v: TEXT}
+          - - {k: n, v: STRING}
+          - - {k: n, v: NUMBER}
+      - name: comment
+        label:
+          en: comment
+          pt: comentário
+        note:
+          en: From // to the end of the line, or between /* and */. Ignored.
+          pt: De // até ao fim da linha, ou entre /* e */. É ignorado.
+      - name: TEXT
+        note:
+          en: A name. Starts with a letter, then letters, digits, underscores or hyphens. Accented letters are allowed.
+          pt: Um nome. Começa por uma letra e segue-se de letras, dígitos, traços inferiores ou hífenes. Aceita letras acentuadas.
+      - name: STRING
+        note:
+          en: Text in single or double quotes.
+          pt: Texto entre aspas simples ou duplas.
+      - name: NUMBER
+        note:
+          en: One or more digits.
+          pt: Um ou mais dígitos.

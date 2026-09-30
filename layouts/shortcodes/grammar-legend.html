@@ -1,0 +1,16 @@
+{{ $lang := .Page.Language.Lang }}
+{{ if eq $lang "pt" }}
+<ul class="syn-legend">
+  <li><span class="syn-t">palavra</span> reservada</li>
+  <li><a class="syn-nt">nome</a> de regra</li>
+  <li><span class="syn-s">=></span> pontuação</li>
+  <li><span class="syn-m">?</span> opcional &nbsp;<span class="syn-m">*</span> repetição</li>
+</ul>
+{{ else }}
+<ul class="syn-legend">
+  <li><span class="syn-t">word</span> reserved</li>
+  <li><a class="syn-nt">name</a> of a rule</li>
+  <li><span class="syn-s">=></span> punctuation</li>
+  <li><span class="syn-m">?</span> optional &nbsp;<span class="syn-m">*</span> repetition</li>
+</ul>
+{{ end }}
