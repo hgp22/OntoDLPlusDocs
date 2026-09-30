@@ -1,4 +1,4 @@
-baseURL: http://localhost:1313/
+baseURL: https://ontodlplusdocs.vercel.app/
 title: OntoDL+
 theme: hugo-book
 

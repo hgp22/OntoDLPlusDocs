@@ -45,4 +45,4 @@ hugo server
 
 If `hugo version` reports an older build, use a current Homebrew install (`brew install hugo`). Preview at <http://localhost:1313/>.
 
-Set `baseURL` in [hugo.yaml](hugo.yaml) when you publish the site.
+The site is published on Vercel. The build pins Hugo 0.167 (see [vercel.json](vercel.json)); Vercel’s default is 0.58.2 and cannot read this project.
